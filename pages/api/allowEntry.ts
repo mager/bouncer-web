@@ -6,14 +6,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const headers = new Headers({
     'Content-Type': 'application/json',
   })
-  const { address, snowflake } = req.query
 
   const url = `https://bouncer-kbh53rdmoq-uc.a.run.app/allowEntry`
   const response = await fetch(url, {
     headers,
     method: 'POST',
     redirect: 'follow',
-    body: JSON.stringify({ address, snowflake }),
+    body: JSON.stringify(req.body),
   })
   const collections = await response.json()
 

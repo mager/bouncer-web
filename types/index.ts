@@ -35,6 +35,7 @@ export type StateType = {
   address?: string
   chainId?: number
   info?: Info
+  snowflake?: string
 }
 
 export type ActionType =
@@ -61,6 +62,15 @@ export type ActionType =
       type: 'SET_INFO'
       info?: StateType['info']
       loading?: StateType['loading']
+    }
+  | {
+      type: 'SET_SNOWFLAKE'
+      snowflake?: StateType['snowflake']
+    }
+  | {
+      type: 'SUBMIT_FORM'
+      address?: StateType['address']
+      snowflake?: StateType['snowflake']
     }
   | {
       type: 'SET_CHAIN_ID'

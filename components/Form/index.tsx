@@ -19,10 +19,15 @@ const labelProps = {
   fontSize: '24px',
 }
 
-const Form = ({ address, info }) => {
+const Form = ({ address, info, onUpdateSnowflake, onSubmit }) => {
   const [css, theme] = useStyletron()
+  const [snowflake, setSnowflake] = React.useState('')
   const i = info
   const completed = i.address_in_list && i.discord_role_set
+
+  const handleSubmit = () => {
+    onSubmit(address, snowflake)
+  }
 
   return (
     <Block>
@@ -33,7 +38,6 @@ const Form = ({ address, info }) => {
       >
         <FlexGridItem {...itemProps}>
           <Block width="100%">
-            <p>Checklist for early Discord entry:</p>
             <ul className={css({ padding: 0 })}>
               <ListItem
                 artwork={(props) =>
@@ -62,85 +66,101 @@ const Form = ({ address, info }) => {
                   </H2>
                 </ListItemLabel>
               </ListItem>
-              <ListItem
-                artwork={(props) =>
-                  i.discord_role_set ? (
-                    <Check {...props} color={theme.colors.positive} />
-                  ) : (
-                    <DeleteAlt {...props} color={theme.colors.negative} />
-                  )
-                }
-              >
-                <ListItemLabel>
-                  <H2
-                    className={css({
-                      color: !i.address_in_list
-                        ? theme.colors.contentInverseTertiary
-                        : i.discord_role_set
-                        ? theme.colors.positive + '!important'
-                        : theme.colors.negative + '!important',
-                    })}
-                  >
-                    Request the Premint role on Discord 👉
-                  </H2>
-                </ListItemLabel>
+              <ListItem>
+                <Block width="100%">
+                  <FormControl label={() => <h2>Address</h2>}>
+                    <Input disabled value={address} />
+                  </FormControl>
+                </Block>
               </ListItem>
             </ul>
           </Block>
         </FlexGridItem>
         <FlexGridItem {...itemProps}>
-          {completed ? (
-            <Block
-              width="100%"
-              display="flex"
-              alignItems="center"
-              flexDirection="row"
+          <ul>
+            <ListItem
+              artwork={(props) =>
+                i.discord_role_set ? (
+                  <Check {...props} color={theme.colors.positive} />
+                ) : (
+                  <DeleteAlt {...props} color={theme.colors.negative} />
+                )
+              }
             >
-              <H2>You&rsquo;re all set, join the Discord 👉</H2>
-              <Block>
-                <Icon
-                  overrides={{
-                    Svg: () => (
-                      <a href="https://discord.gg/waveblocks">
-                        <img
-                          src={`/discord-${theme.name}.svg`}
-                          width="128"
-                          height="128"
-                          alt="Discord"
-                        />
-                      </a>
-                    ),
-                  }}
-                />
-              </Block>
-            </Block>
-          ) : (
-            <Block width="100%">
-              <FormControl label={() => <h2>Address</h2>}>
-                <Input disabled value={address} />
-              </FormControl>
-              <FormControl
-                label={() => <h2>Discord Snowflake</h2>}
-                caption={() => (
-                  <StatefulTooltip
-                    content={() => (
-                      <Block padding={'20px'}>
-                        <img src="/instructions.png" width="777px" />
+              <ListItemLabel>
+                <H2
+                  className={css({
+                    color: !i.address_in_list
+                      ? theme.colors.contentInverseTertiary
+                      : i.discord_role_set
+                      ? theme.colors.positive + '!important'
+                      : theme.colors.negative + '!important',
+                  })}
+                >
+                  Request the Premint role on Discord 👇
+                </H2>
+              </ListItemLabel>
+            </ListItem>
+            <ListItem>
+              {completed ? (
+                <Block
+                  width="100%"
+                  display="flex"
+                  alignItems="center"
+                  flexDirection="row"
+                >
+                  <H2>You&rsquo;re all set, join the Discord 👉</H2>
+                  <Block>
+                    <Icon
+                      overrides={{
+                        Svg: () => (
+                          <a href="https://discord.gg/waveblocks">
+                            <img
+                              src={`/discord-${theme.name}.svg`}
+                              width="128"
+                              height="128"
+                              alt="Discord"
+                            />
+                          </a>
+                        ),
+                      }}
+                    />
+                  </Block>
+                </Block>
+              ) : (
+                <Block width="100%">
+                  <FormControl
+                    label={() => <h2>Discord Snowflake</h2>}
+                    caption={() => (
+                      <Block className={css({ cursor: 'help' })}>
+                        <StatefulTooltip
+                          content={() => (
+                            <Block padding={'20px'}>
+                              <img src="/instructions.png" width="777px" />
+                            </Block>
+                          )}
+                          returnFocus
+                          autoFocus
+                        >
+                          Grab your snowflake by right clicking on your avatar
+                          in a Discord channel, and clicking Copy ID
+                        </StatefulTooltip>
                       </Block>
                     )}
-                    returnFocus
-                    autoFocus
                   >
-                    Grab your snowflake by right clicking on your avatar in a
-                    Discord channel, and clicking Copy ID
-                  </StatefulTooltip>
-                )}
-              >
-                <Input />
-              </FormControl>
-              <Button>Submit</Button>
-            </Block>
-          )}
+                    <Input
+                      onChange={(e) => {
+                        const val = e.currentTarget.value
+                        setSnowflake(val)
+                        return onUpdateSnowflake(val, address)
+                      }}
+                    />
+                  </FormControl>
+                  <Button onClick={handleSubmit}>Submit</Button>
+                </Block>
+              )}
+            </ListItem>
+          </ul>
         </FlexGridItem>
       </FlexGrid>
     </Block>

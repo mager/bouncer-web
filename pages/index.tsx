@@ -96,6 +96,16 @@ function reducer(state: StateType, action: ActionType): StateType {
         info: action.info,
         loading: false,
       }
+    case 'SET_SNOWFLAKE':
+      return {
+        ...state,
+        snowflake: action.snowflake,
+      }
+    case 'SUBMIT_FORM':
+      return {
+        ...state,
+        loading: true,
+      }
     case 'RESET_WEB3_PROVIDER':
       return initialState
     default:
@@ -145,6 +155,44 @@ export const Home = (): JSX.Element => {
     },
     [provider]
   )
+
+  const setSnowflake = useCallback(function (
+    snowflake: string,
+    address?: string
+  ) {
+    dispatch({
+      type: 'SET_SNOWFLAKE',
+      snowflake,
+    })
+  },
+  [])
+
+  const onSubmit = useCallback(function (address: string, snowflake: string) {
+    console.log({ id: 'SUBMITTING', address, snowflake })
+
+    const fetchData = async () => {
+      dispatch({
+        type: 'SUBMIT_FORM',
+      })
+      const response = await fetch(`/api/allowEntry`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          address,
+          snowflake,
+        }),
+      })
+      const info = await response.json()
+      dispatch({
+        type: 'SET_INFO',
+        info,
+      })
+    }
+
+    fetchData()
+  }, [])
 
   // Auto connect to the cached provider
   useEffect(() => {
@@ -258,9 +306,14 @@ export const Home = (): JSX.Element => {
             <Spinner color="#A020F0" size="128px" />
           </Block>
         ) : info ? (
-          <Form address={address} info={info} />
+          <Form
+            address={address}
+            info={info}
+            onUpdateSnowflake={setSnowflake}
+            onSubmit={onSubmit}
+          />
         ) : (
-          <div>No info</div>
+          <div>Connect your wallet above to get started.</div>
         )}
       </main>
       <Footer />
