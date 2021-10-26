@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStyletron, styled } from 'baseui'
+import { useStyletron } from 'baseui'
 import { Block } from 'baseui/block'
 import { Button } from 'baseui/button'
 import { Icon } from 'baseui/icon'
@@ -96,7 +96,7 @@ const Form = ({ address, info }) => {
               alignItems="center"
               flexDirection="row"
             >
-              <H2>You're all set, join the Discord 👉</H2>
+              <H2>You&rsquo;re all set, join the Discord 👉</H2>
               <Block>
                 <Icon
                   overrides={{

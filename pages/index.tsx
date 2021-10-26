@@ -194,7 +194,6 @@ export const Home = (): JSX.Element => {
   useEffect(() => {
     if (address) {
       const fetchData = async () => {
-        const snowflake = '360541062839926785'
         dispatch({ type: 'START_FETCHING_INFO' })
         const response = await fetch(`/api/getStatus`, {
           method: 'POST',
@@ -203,7 +202,8 @@ export const Home = (): JSX.Element => {
           },
           body: JSON.stringify({
             address,
-            snowflake,
+            // TODO: Make the form reload and call getStatus again when a user enters their snowflake
+            snowflake: '',
           }),
         })
         const info = await response.json()
