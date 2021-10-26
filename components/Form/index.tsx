@@ -2,6 +2,7 @@ import React from 'react'
 import { useStyletron, styled } from 'baseui'
 import { Block } from 'baseui/block'
 import { Button } from 'baseui/button'
+import { Icon } from 'baseui/icon'
 import { FormControl } from 'baseui/form-control'
 import { Input } from 'baseui/input'
 import { ListItem, ListItemLabel } from 'baseui/list'
@@ -89,8 +90,29 @@ const Form = ({ address, info }) => {
         </FlexGridItem>
         <FlexGridItem {...itemProps}>
           {completed ? (
-            <Block width="100%" display="flex" alignItems="center">
-              <H2>You're all set, join the Discord below 👇</H2>
+            <Block
+              width="100%"
+              display="flex"
+              alignItems="center"
+              flexDirection="row"
+            >
+              <H2>You're all set, join the Discord 👉</H2>
+              <Block>
+                <Icon
+                  overrides={{
+                    Svg: () => (
+                      <a href="https://discord.gg/waveblocks">
+                        <img
+                          src={`/discord-${theme.name}.svg`}
+                          width="128"
+                          height="128"
+                          alt="Discord"
+                        />
+                      </a>
+                    ),
+                  }}
+                />
+              </Block>
             </Block>
           ) : (
             <Block width="100%">
@@ -110,7 +132,7 @@ const Form = ({ address, info }) => {
                     autoFocus
                   >
                     Grab your snowflake by right clicking on your avatar in a
-                    Discord channel, and click Copy ID
+                    Discord channel, and clicking Copy ID
                   </StatefulTooltip>
                 )}
               >
