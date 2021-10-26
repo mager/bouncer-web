@@ -156,20 +156,14 @@ export const Home = (): JSX.Element => {
     [provider]
   )
 
-  const setSnowflake = useCallback(function (
-    snowflake: string,
-    address?: string
-  ) {
+  const setSnowflake = useCallback(function (snowflake: string) {
     dispatch({
       type: 'SET_SNOWFLAKE',
       snowflake,
     })
-  },
-  [])
+  }, [])
 
   const onSubmit = useCallback(function (address: string, snowflake: string) {
-    console.log({ id: 'SUBMITTING', address, snowflake })
-
     const fetchData = async () => {
       dispatch({
         type: 'SUBMIT_FORM',
