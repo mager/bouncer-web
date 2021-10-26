@@ -132,19 +132,17 @@ const Form = ({ address, info, onUpdateSnowflake, onSubmit }) => {
                   <FormControl
                     label={() => <h2>Discord Snowflake</h2>}
                     caption={() => (
-                      <Block className={css({ cursor: 'help' })}>
-                        <StatefulTooltip
-                          content={() => (
-                            <Block padding={'20px'}>
-                              <img src="/instructions.png" width="777px" />
-                            </Block>
-                          )}
-                          returnFocus
-                          autoFocus
+                      <Block>
+                        Grab your snowflake by enabling Developer Mode, then
+                        right clicking on your avatar in a Discord channel, and
+                        clicking Copy ID.{' '}
+                        <a
+                          target="_blank"
+                          rel="noreferrer"
+                          href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-"
                         >
-                          Grab your snowflake by right clicking on your avatar
-                          in a Discord channel, and clicking Copy ID
-                        </StatefulTooltip>
+                          More instructions here.
+                        </a>
                       </Block>
                     )}
                   >
