@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStyletron } from 'baseui'
+import { useStyletron, styled } from 'baseui'
 import { Block } from 'baseui/block'
 import { Button } from 'baseui/button'
 import { Icon } from 'baseui/icon'
@@ -15,9 +15,15 @@ import { StatefulTooltip } from 'baseui/tooltip'
 const itemProps: BlockProps = {
   display: 'flex',
 }
-const labelProps = {
-  fontSize: '24px',
-}
+
+const getListItemRootOverrides = (theme) => ({
+  paddingTop: theme.sizing.scale800,
+  paddingBottom: theme.sizing.scale600,
+})
+
+const getListItemContentOverrides = (theme) => ({
+  borderBottom: 'none',
+})
 
 const Form = ({ address, info, onUpdateSnowflake, onSubmit }) => {
   const [css, theme] = useStyletron()
@@ -30,7 +36,7 @@ const Form = ({ address, info, onUpdateSnowflake, onSubmit }) => {
   }
 
   return (
-    <Block>
+    <Block paddingTop={theme.sizing.scale800}>
       <FlexGrid
         flexGridColumnCount={2}
         flexGridColumnGap="scale800"
@@ -40,6 +46,14 @@ const Form = ({ address, info, onUpdateSnowflake, onSubmit }) => {
           <Block width="100%">
             <ul className={css({ padding: 0 })}>
               <ListItem
+                overrides={{
+                  Root: {
+                    style: ({ $theme }) => getListItemRootOverrides($theme),
+                  },
+                  Content: {
+                    style: ({ $theme }) => getListItemContentOverrides($theme),
+                  },
+                }}
                 artwork={(props) =>
                   i.address_in_list ? (
                     <Check {...props} color={theme.colors.positive} />
@@ -48,7 +62,7 @@ const Form = ({ address, info, onUpdateSnowflake, onSubmit }) => {
                   )
                 }
               >
-                <ListItemLabel {...labelProps}>
+                <ListItemLabel>
                   <H2>
                     <a
                       rel="noreferrer"
@@ -66,7 +80,16 @@ const Form = ({ address, info, onUpdateSnowflake, onSubmit }) => {
                   </H2>
                 </ListItemLabel>
               </ListItem>
-              <ListItem>
+              <ListItem
+                overrides={{
+                  Root: {
+                    style: ({ $theme }) => getListItemRootOverrides($theme),
+                  },
+                  Content: {
+                    style: ({ $theme }) => getListItemContentOverrides($theme),
+                  },
+                }}
+              >
                 <Block width="100%">
                   <FormControl label={() => <h2>Address</h2>}>
                     <Input disabled value={address} />
@@ -79,6 +102,14 @@ const Form = ({ address, info, onUpdateSnowflake, onSubmit }) => {
         <FlexGridItem {...itemProps}>
           <ul>
             <ListItem
+              overrides={{
+                Root: {
+                  style: ({ $theme }) => getListItemRootOverrides($theme),
+                },
+                Content: {
+                  style: ({ $theme }) => getListItemContentOverrides($theme),
+                },
+              }}
               artwork={(props) =>
                 i.discord_role_set ? (
                   <Check {...props} color={theme.colors.positive} />
@@ -101,7 +132,16 @@ const Form = ({ address, info, onUpdateSnowflake, onSubmit }) => {
                 </H2>
               </ListItemLabel>
             </ListItem>
-            <ListItem>
+            <ListItem
+              overrides={{
+                Root: {
+                  style: ({ $theme }) => getListItemRootOverrides($theme),
+                },
+                Content: {
+                  style: ({ $theme }) => getListItemContentOverrides($theme),
+                },
+              }}
+            >
               {completed ? (
                 <Block
                   width="100%"
